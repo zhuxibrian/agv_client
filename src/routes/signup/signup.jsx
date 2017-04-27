@@ -5,32 +5,18 @@ import {connect} from 'dva';
 import LoginLayout from '../../components/loginLayout/loginLayout';
 import styles from './signup.less';
 
-const FormItem = Form.Item
-const Option = Select.Option
+const FormItem = Form.Item;
+const Option = Select.Option;
 
-const residences = [{
-  value: 'zhejiang',
-  label: 'Zhejiang',
-  children: [{
-    value: 'hangzhou',
-    label: 'Hangzhou',
-    children: [{
-      value: 'xihu',
-      label: 'West Lake',
-    }],
-  }],
-}, {
-  value: 'jiangsu',
-  label: 'Jiangsu',
-  children: [{
-    value: 'nanjing',
-    label: 'Nanjing',
-    children: [{
-      value: 'zhonghuamen',
-      label: 'Zhong Hua Men',
-    }],
-  }],
-}]
+const roles = [
+  {
+  value: 'Administrator',
+  label: 'Administrator',
+},{
+  value: 'User',
+  label: 'User',
+}
+]
 
 const Signup = ({
   dispatch,
@@ -72,7 +58,7 @@ const Signup = ({
   const formItemLayout = {
     labelCol: {
       xs: { span: 24 },
-      sm: { span: 6 },
+      sm: { span: 8 },
     },
     wrapperCol: {
       xs: { span: 24 },
@@ -91,10 +77,14 @@ const Signup = ({
       },
     },
   }
+
+  const prefixSelectorStyle = {
+    width: '60px',
+  }
   const prefixSelector = getFieldDecorator('prefix', {
     initialValue: '86',
   })(
-    <Select className={styles.icpSelector}>
+    <Select style={prefixSelectorStyle}>
       <Option value="86">+86</Option>
     </Select>
   )
@@ -102,19 +92,14 @@ const Signup = ({
     <LoginLayout>
       <div className={styles.signupPanel}>
         <Form onSubmit={handleSubmit} className={styles.signupForm}>
-          <FormItem
+        <FormItem
             {...formItemLayout}
-            label="E-mail"
-            hasFeedback
+            label="ID"
           >
-            {getFieldDecorator('email', {
-              rules: [{
-                type: 'email', message: 'The input is not valid E-mail!',
-              }, {
-                required: true, message: 'Please input your E-mail!',
-              }],
+            {getFieldDecorator('id', {
+              rules: [{ required: true, message: 'Please input the user ID!' }],
             })(
-              <Input />
+              <Input size="large" />
             )}
           </FormItem>
           <FormItem
@@ -149,31 +134,24 @@ const Signup = ({
           </FormItem>
           <FormItem
             {...formItemLayout}
-            label={(
-              <span>
-                Nickname&nbsp;
-                <Tooltip title="What do you want other to call you?">
-                  <Icon type="question-circle-o" />
-                </Tooltip>
-              </span>
-            )}
+            label="Name"
             hasFeedback
           >
-            {getFieldDecorator('nickname', {
-              rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
+            {getFieldDecorator('name', {
+              rules: [{ required: true, message: 'Please input your name!', whitespace: true }],
             })(
               <Input />
             )}
           </FormItem>
           <FormItem
             {...formItemLayout}
-            label="Habitual Residence"
+            label="Role"
           >
             {getFieldDecorator('residence', {
-              initialValue: ['zhejiang', 'hangzhou', 'xihu'],
-              rules: [{ type: 'array', required: true, message: 'Please select your habitual residence!' }],
+              initialValue: ['User'],
+              rules: [{ type: 'array', required: true, message: 'Please select your role!' }],
             })(
-              <Cascader options={residences} />
+              <Cascader options={roles} />
             )}
           </FormItem>
           <FormItem
@@ -188,21 +166,18 @@ const Signup = ({
           </FormItem>
           <FormItem
             {...formItemLayout}
-            label="Captcha"
-            extra="We must make sure that your are a human."
+            label="E-mail"
+            hasFeedback
           >
-            <Row gutter={8}>
-              <Col span={12}>
-                {getFieldDecorator('captcha', {
-                  rules: [{ required: true, message: 'Please input the captcha you got!' }],
-                })(
-                  <Input size="large" />
-                )}
-              </Col>
-              <Col span={12}>
-                <Button size="large">Get captcha</Button>
-              </Col>
-            </Row>
+            {getFieldDecorator('email', {
+              rules: [{
+                type: 'email', message: 'The input is not valid E-mail!',
+              }, {
+                required: true, message: 'Please input your E-mail!',
+              }],
+            })(
+              <Input />
+            )}
           </FormItem>
           <FormItem {...tailFormItemLayout} style={{ marginBottom: 8 }}>
             {getFieldDecorator('agreement', {
