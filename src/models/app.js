@@ -14,24 +14,25 @@ export default {
   state: {
     isLogin: false,
     account: {
+      userid: null,
       username: null,
-      ability: null,
-      user_id: null,
       email: null,
       phone: null,
+      role: null,
+      ability: null,
     }
   },
   subscriptions: {},
   effects: {
     auth: function* ({ payload }, { call, put }) {
-      const { username, password } = payload;
+      const { userid, password } = payload;
       try {
-        const { data } = yield call(auth, { username, password });
+        const { data } = yield call(auth, { userid, password });
 
         // succeed to login
         if (data) {
           const { user, access_token } = data;
-          const { token } = access_token;
+          const token = access_token;
 
           // save the token to the local storage.
           window.localStorage.setItem(storageTokenKey, token);
@@ -42,7 +43,7 @@ export default {
           yield put(routerRedux.push('/main'));
         }
       } catch (error) {
-        message.error('Wrong Username or Password.. :(', 4);
+        message.error('Wrong userid or Password.. :(', 4);
       }
     },
     enterAuth: function* ({ payload, onComplete }, { put, take }) {
@@ -74,12 +75,12 @@ export default {
       }
     },
     register: function* ({ payload }, { put, call }) {
-      const { username, email, password } = payload;
-      const { data } = yield call(createUser, { username, email, password });
+      const { userid, email, password } = payload;
+      const { data } = yield call(createUser, { userid, email, password });
       if (data) {
         yield put({
           type: 'auth',
-          payload: { username, password }
+          payload: { userid, password }
         });
       }
     }
@@ -111,10 +112,12 @@ export default {
         ...state,
         isLogin: false,
         account: {
+          userid: null,
           username: null,
+          email: null,
+          phone: null,
+          role: null,
           ability: null,
-          user_id: null,
-          email: null
         }
       };
     }

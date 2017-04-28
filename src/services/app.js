@@ -20,10 +20,10 @@ export function auth(payload) {
 
 export function fetchUser() {
   const token = window.localStorage.getItem(storageTokenKey);
-  return request('/api/user', {
+  return request(`/api/user`, {
     method: 'GET',
     headers: new Headers({
-      "Authorization": `Bearer ${token}`
+       //"Authorization": `Bearer ${token}`
     })
   });
 }

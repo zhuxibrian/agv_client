@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
-import {Link} from 'dva/router';
-import {connect} from 'dva';
+import { Link } from 'dva/router';
+import { connect } from 'dva';
 import LoginLayout from '../../components/loginLayout/loginLayout';
 import styles from './login.less';
 
@@ -11,13 +11,20 @@ const Login = ({
   dispatch,
   form: {
     getFieldDecorator,
+    validateFields,
   },
 }) => {
-  const handleSubmit = (e) => {
+  function commit(data) {
+    const { userid, password } = data;
+    dispatch({ type: 'app/auth', payload: { userid, password } });
+  }
+
+
+  function handleSubmit(e) {
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values);
+    validateFields((error, values) => {
+      if (!error) {
+        commit(values);
       }
     });
   }
@@ -27,18 +34,18 @@ const Login = ({
       <div className={styles.loginPanel}>
         <Form onSubmit={handleSubmit} className={styles.loginForm}>
           <FormItem>
-            {getFieldDecorator('userName', {
-              rules: [{ required: true, message: 'Please input your username!' }],
+            {getFieldDecorator('userid', {
+              rules: [{ required: true, message: 'Please input your User ID!' }],
             })(
-              <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="Username" />
-            )}
+              <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="User ID" />
+              )}
           </FormItem>
           <FormItem>
             {getFieldDecorator('password', {
               rules: [{ required: true, message: 'Please input your Password!' }],
             })(
               <Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="password" placeholder="Password" />
-            )}
+              )}
           </FormItem>
           <FormItem>
             {getFieldDecorator('remember', {
@@ -46,7 +53,7 @@ const Login = ({
               initialValue: true,
             })(
               <Checkbox>Remember me</Checkbox>
-            )}
+              )}
             <a className={styles.loginFormForgot} href="">Forgot password</a>
             <Button type="primary" htmlType="submit" className={styles.loginFormButton}>
               Log in

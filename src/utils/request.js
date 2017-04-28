@@ -1,4 +1,5 @@
 import fetch from 'dva/fetch';
+import { baseUrl } from './constant';
 
 function parseJSON(response) {
   return response.json();
@@ -22,7 +23,8 @@ function checkStatus(response) {
  * @return {object}           An object containing either "data" or "err"
  */
 export default function request(url, options) {
-  return fetch(url, options)
+  const requestUrl = baseUrl + url;
+  return fetch(requestUrl, options)
     .then(checkStatus)
     .then(parseJSON)
     .then((data) => ({ data }))

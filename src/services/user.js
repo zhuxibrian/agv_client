@@ -14,9 +14,9 @@ export function createUser({ username, password, email }) {
   });
 }
 
-export function fetchUserDetail({ user_id }) {
+export function fetchUserDetail({ userid }) {
   const token = window.localStorage.getItem(storageTokenKey);
-  return request(`/api/user/${user_id}`, {
+  return request(`/api/user/${userid}`, {
     method: 'GET',
     headers: new Headers({
       "Authorization": `Bearer ${token}`
