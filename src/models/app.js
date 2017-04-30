@@ -14,12 +14,12 @@ export default {
   state: {
     isLogin: false,
     account: {
-      userid: null,
-      username: null,
+      ability: null,
       email: null,
       phone: null,
       role: null,
-      ability: null,
+      userid: null,
+      username: null,
     }
   },
   subscriptions: {},
@@ -31,14 +31,14 @@ export default {
 
         // succeed to login
         if (data) {
-          const { user, access_token } = data;
+          const { userid, username, email, phone, role, ability, access_token } = data;
           const token = access_token;
 
           // save the token to the local storage.
           window.localStorage.setItem(storageTokenKey, token);
           yield put({
             type: 'authSuccess',
-            payload: { account: user }
+            payload: { account: { userid, username, email, phone, role, ability }}
           });
           yield put(routerRedux.push('/main'));
         }
@@ -102,10 +102,11 @@ export default {
     },
     queryUserSuccess: function (state, { payload }) {
       const { account } = payload;
-      return {
-        ...state,
-        account
+      return { 
+        ...state, 
+        account 
       };
+      
     },
     authFail: function (state) {
       return {

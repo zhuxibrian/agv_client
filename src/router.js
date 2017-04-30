@@ -1,10 +1,10 @@
 import React from 'react';
-import { Router, Route, IndexRoute } from 'dva/router';
+import { Router, Route, IndexRedirect } from 'dva/router';
 
 import App from './routes/app';
 import Login from './routes/login/login';
 import Signup from './routes/signup/signup';
-import Main from './routes/main/main';
+import Main from './components/main/main';
 
 function RouterConfig ({ history, app }) {
   function requireAuth(nextState, replace, callback) {
@@ -20,8 +20,8 @@ function RouterConfig ({ history, app }) {
       <Route path="/login" component={Login} />
       <Route path="/signup" component={Signup} />
       <Route path="/" component={App}>
-        <IndexRoute component={Main} onEnter={requireAuth} />
-        <Route path="main" component={Main} />
+        <IndexRedirect to="main" />
+        <Route path="main" component={Main} onEnter={requireAuth} />
       </Route>
     </Router>
   );

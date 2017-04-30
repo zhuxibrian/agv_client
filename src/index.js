@@ -1,18 +1,18 @@
-import dva from 'dva'
-import {message} from 'antd';
-import './index.css'
+import dva from 'dva';
+import { message } from 'antd';
+import './index.css';
 
 // 1. Initialize
 const app = dva({
-    onError(e, dispatch) {
-        dispatch({type: 'app/logout'});
-        console.log(e);
-        if (e.message === 'Unauthorized') {
-            message.info('Please Login :)', 5);
-        } else {
-            message.error(e.message, 5);
-        }
+  onError(e, dispatch) {
+    dispatch({ type: 'app/logout' });
+    console.log(e);
+    if (e.message === 'Unauthorized') {
+      message.info('Please Login :)', 5);
+    } else {
+      message.error(e.message, 5);
     }
+  }
 });
 
 // 2. Plugins

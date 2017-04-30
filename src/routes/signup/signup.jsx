@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button } from 'antd';
-import {Link} from 'dva/router';
-import {connect} from 'dva';
+import { Link } from 'dva/router';
+import { connect } from 'dva';
 import LoginLayout from '../../components/loginLayout/loginLayout';
 import styles from './signup.less';
 
@@ -10,36 +10,42 @@ const Option = Select.Option;
 
 const roles = [
   {
-  value: 'Administrator',
-  label: 'Administrator',
-},{
-  value: 'User',
-  label: 'User',
-}
+    value: 'Administrator',
+    label: 'Administrator',
+  }, {
+    value: 'User',
+    label: 'User',
+  }
 ]
 
 const Signup = ({
+  form,
   dispatch,
   form: {
     getFieldDecorator,
   },
 }) => {
-  const handleSubmit = (e) => {
+  let passwordDirty = false;
+
+  function handleSubmit(e) {
     e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values)
+    form.validateFieldsAndScroll((error, { username, email, password }) => {
+      if (!error) {
+        dispatch({
+          type: 'app/register',
+          payload: { username, email, password }
+        });
       }
     });
   }
 
-  const handleConfirmBlur = (e) => {
+  function handlePasswordBlue(e) {
     const value = e.target.value;
-    this.setState({ confirmDirty: this.state.confirmDirty || !!value });
+    passwordDirty = passwordDirty || !!value;
   }
 
-  const checkPassword = (rule, value, callback) => {
-    const form = this.props.form;
+
+  function checkPassword(rule, value, callback) {
     if (value && value !== form.getFieldValue('password')) {
       callback('Two passwords that you enter is inconsistent!');
     } else {
@@ -47,9 +53,8 @@ const Signup = ({
     }
   }
 
-  const checkConfirm = (rule, value, callback) => {
-    const form = this.props.form;
-    if (value && this.state.confirmDirty) {
+  function checkConfirm(rule, value, callback) {
+    if (value && passwordDirty) {
       form.validateFields(['confirm'], { force: true });
     }
     callback();
@@ -87,12 +92,12 @@ const Signup = ({
     <Select style={prefixSelectorStyle}>
       <Option value="86">+86</Option>
     </Select>
-  )
+    )
   return (
     <LoginLayout>
       <div className={styles.signupPanel}>
         <Form onSubmit={handleSubmit} className={styles.signupForm}>
-        <FormItem
+          <FormItem
             {...formItemLayout}
             label="ID"
           >
@@ -100,7 +105,7 @@ const Signup = ({
               rules: [{ required: true, message: 'Please input the user ID!' }],
             })(
               <Input size="large" />
-            )}
+              )}
           </FormItem>
           <FormItem
             {...formItemLayout}
@@ -114,8 +119,8 @@ const Signup = ({
                 validator: checkConfirm,
               }],
             })(
-              <Input type="password" />
-            )}
+              <Input type="password" onBlur={handlePasswordBlue}/>
+              )}
           </FormItem>
           <FormItem
             {...formItemLayout}
@@ -129,8 +134,8 @@ const Signup = ({
                 validator: checkPassword,
               }],
             })(
-              <Input type="password" onBlur={handleConfirmBlur} />
-            )}
+              <Input type="password" />
+              )}
           </FormItem>
           <FormItem
             {...formItemLayout}
@@ -141,7 +146,7 @@ const Signup = ({
               rules: [{ required: true, message: 'Please input your name!', whitespace: true }],
             })(
               <Input />
-            )}
+              )}
           </FormItem>
           <FormItem
             {...formItemLayout}
@@ -152,7 +157,7 @@ const Signup = ({
               rules: [{ type: 'array', required: true, message: 'Please select your role!' }],
             })(
               <Cascader options={roles} />
-            )}
+              )}
           </FormItem>
           <FormItem
             {...formItemLayout}
@@ -162,7 +167,7 @@ const Signup = ({
               rules: [{ required: true, message: 'Please input your phone number!' }],
             })(
               <Input addonBefore={prefixSelector} />
-            )}
+              )}
           </FormItem>
           <FormItem
             {...formItemLayout}
@@ -177,14 +182,14 @@ const Signup = ({
               }],
             })(
               <Input />
-            )}
+              )}
           </FormItem>
           <FormItem {...tailFormItemLayout} style={{ marginBottom: 8 }}>
             {getFieldDecorator('agreement', {
               valuePropName: 'checked',
             })(
               <Checkbox>I have read the <a href="">agreement</a></Checkbox>
-            )}
+              )}
           </FormItem>
           <FormItem {...tailFormItemLayout}>
             <Button type="primary" htmlType="submit" size="large">Register</Button>
