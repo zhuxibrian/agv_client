@@ -38,7 +38,7 @@ export default {
           window.localStorage.setItem(storageTokenKey, token);
           yield put({
             type: 'authSuccess',
-            payload: { account: { userid, username, email, phone, role, ability }}
+            payload: { account: { userid, username, email, phone, role, ability } }
           });
           yield put(routerRedux.push('/main'));
         }
@@ -102,11 +102,11 @@ export default {
     },
     queryUserSuccess: function (state, { payload }) {
       const { account } = payload;
-      return { 
-        ...state, 
-        account 
+      return {
+        ...state,
+        account
       };
-      
+
     },
     authFail: function (state) {
       return {

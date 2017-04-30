@@ -12,7 +12,7 @@ const app = dva({
     } else {
       message.error(e.message, 5);
     }
-  }
+  },
 });
 
 // 2. Plugins
@@ -20,10 +20,10 @@ const app = dva({
 
 // 3. Model
 // app.model(require('./models/example'));
-app.model(require('./models/app'))
+app.model(require('./models/app'));
 
 // 4. Router
-app.router(require('./router'))
+app.router(require('./router'));
 
 // 5. Start
-app.start('#root')
+app.start('#root');
