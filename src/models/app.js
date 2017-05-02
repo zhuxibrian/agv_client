@@ -35,7 +35,7 @@ export default {
           const token = access_token;
 
           // save the token to the local storage.
-          window.localStorage.setItem(storageTokenKey, token);
+          window.sessionStorage.setItem(storageTokenKey, token);
           yield put({
             type: 'authSuccess',
             payload: { account: { userid, username, email, phone, role, ability } }
@@ -53,7 +53,7 @@ export default {
     },
     checkToken: function* ({ payload }, { put, call, select }) {
       // get the token from local storage.
-      const token = window.localStorage.getItem(storageTokenKey);
+      const token = window.sessionStorage.getItem(storageTokenKey);
       if (token) {
         yield put({ type: 'hasToken' });
       } else {
@@ -62,7 +62,7 @@ export default {
     },
     logout: function* ({ payload }, { put }) {
       yield put({ type: 'authFail' });
-      window.localStorage.removeItem(storageTokenKey);
+      window.sessionStorage.removeItem(storageTokenKey);
       yield put(routerRedux.push('/login'));
     },
     queryUser: function* ({ payload }, { put, call }) {
