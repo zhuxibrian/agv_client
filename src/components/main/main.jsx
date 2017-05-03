@@ -1,22 +1,90 @@
 import React, { PropTypes } from 'react';
-import { Button } from 'antd';
+import { connect } from 'dva';
+import { Layout, Menu, Breadcrumb, Icon } from 'antd';
+
+const { Header, Content, Footer, Sider } = Layout;
+const SubMenu = Menu.SubMenu;
 
 const Main = ({
-  routes,
-  params,
-  account,
   children,
-  handleClickLogOut,
+  dispatch,
+  currentAccount,
+  currentCollapsed,
+  currentMode,
 }) => {
+  // const handleClickLogOut = (e) => {
+  //   e.preventDefault();
+  //   message.success('Log out successfully :)');
+  //   dispatch({ type: 'app/logout' });
+  // };
+  function handleChangeLayoutState() {
+    dispatch({ type: 'main/changeLayoutState', payload: { collapsed: currentCollapsed } });
+  }
   return (
-    <div>
-      <h2>Main Page {account.userid}</h2>
-      <Button type="primary" htmlType="button" onClick={handleClickLogOut}>
-        Log in
-      </Button>
-    </div>
-  )
+    <Layout>
+      <Sider
+        collapsible
+        collapsed={currentCollapsed}
+        onCollapse={handleChangeLayoutState}
+      >
+        <div className="logo" />
+        <Menu theme="dark" mode={currentMode} defaultSelectedKeys={['6']}>
+          <SubMenu
+            key="sub1"
+            title={<span><Icon type="user" /><span className="nav-text">User</span></span>}
+          >
+            <Menu.Item key="1">Tom</Menu.Item>
+            <Menu.Item key="2">Bill</Menu.Item>
+            <Menu.Item key="3">Alex</Menu.Item>
+          </SubMenu>
+          <SubMenu
+            key="sub2"
+            title={<span><Icon type="team" /><span className="nav-text">Team</span></span>}
+          >
+            <Menu.Item key="4">Team 1</Menu.Item>
+            <Menu.Item key="5">Team 2</Menu.Item>
+          </SubMenu>
+          <Menu.Item key="6">
+            <span>
+              <Icon type="file" />
+              <span className="nav-text">File</span>
+            </span>
+          </Menu.Item>
+        </Menu>
+      </Sider>
+      <Layout>
+        <Header style={{ background: '#fff', padding: 0 }} />
+        <Content style={{ margin: '0 16px' }}>
+          <Breadcrumb style={{ margin: '12px 0' }}>
+            <Breadcrumb.Item>User</Breadcrumb.Item>
+            <Breadcrumb.Item>Bill</Breadcrumb.Item>
+          </Breadcrumb>
+          <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
+            Bill is a cat.
+            </div>
+        </Content>
+        <Footer style={{ textAlign: 'center' }}>
+          Ant Design ©2016 Created by Ant UED
+          </Footer>
+      </Layout>
+    </Layout>
+  );
+};
+
+Main.propTypes = {
+  children: PropTypes.element.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  currentAccount: PropTypes.object.isRequired,
+  currentCollapsed: PropTypes.bool.isRequired,
+  currentMode: PropTypes.string.isRequired,
+};
+
+function mapStateToProps(state, ownProps) {
+  return {
+    currentAccount: state.app.account,
+    currentCollapsed: state.main.collapsed,
+    currentMode: state.main.mode,
+  };
 }
 
-
-export default Main;
+export default connect(mapStateToProps)(Main);

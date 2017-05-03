@@ -1,6 +1,7 @@
 import dva from 'dva';
 import { message } from 'antd';
-import './index.css';
+import './index.html';
+import './index.less';
 
 // 1. Initialize
 const app = dva({
@@ -21,6 +22,7 @@ const app = dva({
 // 3. Model
 // app.model(require('./models/example'));
 app.model(require('./models/app'));
+app.model(require('./models/main'));
 
 // 4. Router
 app.router(require('./router'));

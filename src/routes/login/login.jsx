@@ -19,7 +19,6 @@ const Login = ({
     dispatch({ type: 'app/auth', payload: { userid, password } });
   }
 
-
   function handleSubmit(e) {
     e.preventDefault();
     validateFields((error, values) => {

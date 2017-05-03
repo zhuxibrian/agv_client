@@ -13,6 +13,10 @@ export default {
   namespace: 'app',
   state: {
     isLogin: false,
+    layoutState: {
+      collapsed: false,
+      mode: 'inline',
+    },
     account: {
       ability: null,
       email: null,
@@ -20,7 +24,7 @@ export default {
       role: null,
       userid: null,
       username: null,
-    }
+    },
   },
   subscriptions: {},
   effects: {
@@ -70,7 +74,7 @@ export default {
       if (data) {
         yield put({
           type: 'queryUserSuccess',
-          payload: { account: data }
+          payload: { account: data },
         });
       }
     },
@@ -80,10 +84,10 @@ export default {
       if (data) {
         yield put({
           type: 'auth',
-          payload: { userid, password }
+          payload: { userid, password },
         });
       }
-    }
+    },
   },
   reducers: {
     authSuccess: function (state, { payload }) {
@@ -91,20 +95,20 @@ export default {
       return {
         ...state,
         account,
-        isLogin: true
+        isLogin: true,
       };
     },
     hasToken: function (state) {
       return {
         ...state,
-        isLogin: true
+        isLogin: true,
       };
     },
     queryUserSuccess: function (state, { payload }) {
       const { account } = payload;
       return {
         ...state,
-        account
+        account,
       };
 
     },
@@ -119,7 +123,7 @@ export default {
           phone: null,
           role: null,
           ability: null,
-        }
+        },
       };
     }
   }
