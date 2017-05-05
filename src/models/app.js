@@ -44,7 +44,7 @@ export default {
             type: 'authSuccess',
             payload: { account: { userid, username, email, phone, role, ability } }
           });
-          yield put(routerRedux.push('/main'));
+          yield put(routerRedux.push('/'));
         }
       } catch (error) {
         message.error('Wrong userid or Password.. :(', 4);

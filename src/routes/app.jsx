@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'dva';
 import { message } from 'antd';
-import Main from '../components/main/main';
+import Main from './main/main';
 
 const App = ({
   children,

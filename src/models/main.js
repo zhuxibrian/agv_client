@@ -1,5 +1,7 @@
 'use strict';
 
+import { routerRedux } from 'dva/router';
+
 export default {
   namespace: 'main',
   state: {
@@ -13,6 +15,11 @@ export default {
       collapsed = !collapsed;
       const mode = collapsed ? 'vertical' : 'inline';
       yield put({ type: 'layoutState', payload: { collapsed: collapsed, mode: mode } });
+    },
+    changePage: function* ({ payload }, { put }) {
+      const { page } = payload;
+      const nextPage = "/" + page;
+      yield put(routerRedux.push(nextPage));
     },
   },
   reducers: {

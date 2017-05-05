@@ -1,17 +1,19 @@
 import React from 'react';
-import { Router, Route, IndexRedirect } from 'dva/router';
+import { Router, Route, IndexRoute } from 'dva/router';
 
 import App from './routes/app';
 import Login from './routes/login/login';
 import Signup from './routes/signup/signup';
-import Main from './components/main/main';
+import LayoutPage from './routes/main/pages/layoutPage/layoutPage';
+import ListPage from './routes/main/pages/listPage/listPage';
+import DiagramPage from './routes/main/pages/diagramPage/diagramPage';
 
-function RouterConfig ({ history, app }) {
+function RouterConfig({ history, app }) {
   function requireAuth(nextState, replace, callback) {
     app._store.dispatch({
       type: 'app/enterAuth',
       payload: {},
-      onComplete: callback
+      onComplete: callback,
     });
   }
 
@@ -19,9 +21,11 @@ function RouterConfig ({ history, app }) {
     <Router history={history}>
       <Route path="/login" component={Login} />
       <Route path="/signup" component={Signup} />
-      <Route path="/" component={App}>
-        <IndexRedirect to="main" />
-        <Route path="main" component={Main} onEnter={requireAuth} />
+      <Route path="/" component={App} onEnter={requireAuth}>
+        <IndexRoute component={LayoutPage} />
+        <Route path="layout" component={LayoutPage} />
+        <Route path="list" component={ListPage} />
+        <Route path="diagram" component={DiagramPage} />
       </Route>
     </Router>
   );
