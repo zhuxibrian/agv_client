@@ -4,9 +4,9 @@ import { Router, Route, IndexRoute } from 'dva/router';
 import App from './routes/app';
 import Login from './routes/login/login';
 import Signup from './routes/signup/signup';
-import LayoutPage from './routes/main/pages/layoutPage/layoutPage';
-import ListPage from './routes/main/pages/listPage/listPage';
-import DiagramPage from './routes/main/pages/diagramPage/diagramPage';
+import LayoutPage from './components/layoutPage/layoutPage';
+import ListPage from './components/listPage/listPage';
+import DiagramPage from './components/diagramPage/diagramPage';
 
 function RouterConfig({ history, app }) {
   function requireAuth(nextState, replace, callback) {
