@@ -51,28 +51,28 @@ const Main = ({
         <Menu theme="dark" mode={currentMode} defaultSelectedKeys={['1']} onClick={handleChangePage}>
           <Menu.Item key="1">
             <span>
-              <Icon type="user" />
-              <span className="nav-text">User</span>
+              <Icon type="home" />
+              <span className="nav-text">主页</span>
             </span>
           </Menu.Item>
           <Menu.Item key="2">
             <span>
-              <Icon type="user" />
-              <span className="nav-text">List</span>
+              <Icon type="database" />
+              <span className="nav-text">列表</span>
             </span>
           </Menu.Item>
           <SubMenu
             key="sub1"
-            title={<span><Icon type="team" /><span className="nav-text">Team</span></span>}
+            title={<span><Icon type="setting" /><span className="nav-text">设置</span></span>}
           >
-            <Menu.Item key="3">Alex</Menu.Item>
-            <Menu.Item key="4">Team 1</Menu.Item>
-            <Menu.Item key="5">Team 2</Menu.Item>
+            <Menu.Item key="3">布局设置</Menu.Item>
+            <Menu.Item key="4">地标设置</Menu.Item>
+            <Menu.Item key="5">路线设置</Menu.Item>
           </SubMenu>
           <Menu.Item key="6">
             <span>
-              <Icon type="file" />
-              <span className="nav-text">File</span>
+              <Icon type="line-chart" />
+              <span className="nav-text">统计</span>
             </span>
           </Menu.Item>
         </Menu>

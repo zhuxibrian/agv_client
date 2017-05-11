@@ -13,6 +13,9 @@
     "babel-plugin-import": "^1.1.1",
     "babel-runtime": "^6.9.2",
     "dva": "^1.2.1",
+    "echarts": "^3.5.4",
+    "echarts-for-react": "^1.2.3",
+    "echarts-liquidfill": "^1.0.5",
     "rc-tween-one": "^1.2.5",
     "react": "^15.4.0",
     "react-dom": "^15.4.0"
