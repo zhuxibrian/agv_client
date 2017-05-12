@@ -24,16 +24,25 @@ const Main = ({
       case '2':
         dispatch({ type: 'main/changePage', payload: { page: 'list' } });
         break;
-      case '3':
+      case '11':
         dispatch({ type: 'main/changePage', payload: { page: 'layout' } });
         break;
-      case '4':
+      case '12':
         dispatch({ type: 'main/changePage', payload: { page: 'layout' } });
         break;
-      case '5':
+      case '13':
         dispatch({ type: 'main/changePage', payload: { page: 'layout' } });
         break;
-      case '6':
+      case '14':
+        dispatch({ type: 'main/changePage', payload: { page: 'layout' } });
+        break;
+      case '15':
+        dispatch({ type: 'main/changePage', payload: { page: 'layout' } });
+        break;
+      case '16':
+        dispatch({ type: 'main/changePage', payload: { page: 'layout' } });
+        break;
+      case '21':
         dispatch({ type: 'main/changePage', payload: { page: 'diagram' } });
         break;
       default:
@@ -65,11 +74,14 @@ const Main = ({
             key="sub1"
             title={<span><Icon type="setting" /><span className="nav-text">设置</span></span>}
           >
-            <Menu.Item key="3">布局设置</Menu.Item>
-            <Menu.Item key="4">地标设置</Menu.Item>
-            <Menu.Item key="5">路线设置</Menu.Item>
+            <Menu.Item key="11">布局设置</Menu.Item>
+            <Menu.Item key="12">地标设置</Menu.Item>
+            <Menu.Item key="13">路线设置</Menu.Item>
+            <Menu.Item key="14">管制设置</Menu.Item>
+            <Menu.Item key="15">AGV设置</Menu.Item>
+            <Menu.Item key="16">控制设置</Menu.Item>
           </SubMenu>
-          <Menu.Item key="6">
+          <Menu.Item key="21">
             <span>
               <Icon type="line-chart" />
               <span className="nav-text">统计</span>

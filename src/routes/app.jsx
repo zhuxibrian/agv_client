@@ -11,22 +11,6 @@ const App = ({
   isLogin,
   account,
 }) => {
-
-  // const mainLayoutProps = {
-  //   routes,
-  //   params,
-  //   account,
-  //   handleClickLogOut: function (e) {
-  //     e.preventDefault();
-  //     message.success('Log out successfully :)');
-  //     dispatch({ type: 'app/logout' });
-  //   },
-  //   // handleChangeLayoutState: function(e) {
-  //   //   e.preventDefault();
-  //   //   dispatch({ type: 'app/changeLayoutState', payload: { layoutState } });
-  //   // },
-  // };
-
   return isLogin ? <Main>{children}</Main> : <div />
 }
 

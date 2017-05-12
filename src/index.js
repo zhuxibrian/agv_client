@@ -24,6 +24,7 @@ const app = dva({
 app.model(require('./models/app'));
 app.model(require('./models/main'));
 app.model(require('./models/layoutPage.js'));
+app.model(require('./models/draggableDialog.js'));
 
 // 4. Router
 app.router(require('./router'));

@@ -18,7 +18,8 @@
     "echarts-liquidfill": "^1.0.5",
     "rc-tween-one": "^1.2.5",
     "react": "^15.4.0",
-    "react-dom": "^15.4.0"
+    "react-dom": "^15.4.0",
+    "react-draggable": "^2.2.6"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",
