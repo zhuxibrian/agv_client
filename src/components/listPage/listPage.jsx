@@ -7,22 +7,22 @@ import styles from './listPage.less';
 const ListPage = () => {
 
   const todoColumns = [
-    { title: 'Controller', dataIndex: 'controller', key: 'controller', width: 120 },
-    { title: 'Message', dataIndex: 'message', key: 'message', width: 120 },
-    { title: 'Datetime', dataIndex: 'datetime', key: 'datetime', width: 150 },
+    { title: 'Controller', dataIndex: 'controller', key: 'controller', width: 100 },
+    { title: 'Message', dataIndex: 'message', key: 'message', width: 100 },
+    { title: 'Datetime', dataIndex: 'datetime', key: 'datetime', width: 120 },
     { title: 'Action', dataIndex: '', key: 'x', render: () => <a href="#">Delete</a> },
   ];
 
   const doingColums = [
-    { title: 'Controller', dataIndex: 'controller', key: 'controller', width: 120 },
-    { title: 'Message', dataIndex: 'message', key: 'message', width: 120 },
-    { title: 'AGV', dataIndex: 'agv', key: 'agv', width: 120 },
+    { title: 'Controller', dataIndex: 'controller', key: 'controller', width: 100 },
+    { title: 'Message', dataIndex: 'message', key: 'message', width: 100 },
+    { title: 'AGV', dataIndex: 'agv', key: 'agv', width: 100 },
     { title: 'Datetime', dataIndex: 'datetime', key: 'datetime' },
   ];
 
   const conflictColums = [
-    { title: 'AGV', dataIndex: 'agv', key: 'agv', width: 120 },
-    { title: 'Space', dataIndex: 'space', key: 'space', width: 120 },
+    { title: 'AGV', dataIndex: 'agv', key: 'agv', width: 100 },
+    { title: 'Space', dataIndex: 'space', key: 'space', width: 100 },
     { title: 'Datetime', dataIndex: 'datetime', key: 'datetime' },
   ];
 

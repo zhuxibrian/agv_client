@@ -272,27 +272,27 @@ const DiagramPage = () => {
     <div className={styles.diagramPageNormal}>
       <ReactEcharts // 7日AGV运行时长统计
         option={getAgvTimeOption()}
-        style={{ width: '500px', height: '350px', margin: '5px 5px', border: '1px solid #ccc' }}
+        className={styles.echarts}
       />
       <ReactEcharts // 7日AGV响应次数统计
         option={getCallCountOption()}
-        style={{ width: '500px', height: '350px', margin: '5px 5px', border: '1px solid #ccc' }}
+        className={styles.echarts}
       />
       <ReactEcharts // 7日故障次数统计
         option={getErrorCountOption()}
-        style={{ width: '500px', height: '350px', margin: '5px 5px', border: '1px solid #ccc' }}
+        className={styles.echarts}
       />
       <ReactEcharts // 7日故障类型统计
         option={getErrorTypeOption()}
-        style={{ width: '500px', height: '350px', margin: '5px 5px', border: '1px solid #ccc' }}
+        className={styles.echarts}
       />
       <ReactEcharts // 7日负荷率统计
         option={getLoadRateOption()}
-        style={{ width: '500px', height: '350px', margin: '5px 5px', border: '1px solid #ccc' }}
+        className={styles.echarts}
       />
       <ReactEcharts // 7日交通管制统计
         option={getTrafficControlOption()}
-        style={{ width: '500px', height: '350px', margin: '5px 5px', border: '1px solid #ccc' }}
+        className={styles.echarts}
       />
     </div>
   );
