@@ -45,8 +45,7 @@ const layoutPage = ({
 
   return (
     <div id="layoutDiv" className={styles.normal}>
-      <div style={{width: '100px', height: '100px', float: 'left' }}><DraggableDialog /></div>
-
+      <div style={{width: '0px', height: '0px', float: 'left' }}><DraggableDialog /></div>
       <div style={divStyle}>
         <TweenOne
           animation={animation}
