@@ -7,6 +7,8 @@ export default {
   state: {
     collapsed: false,
     mode: 'inline',
+    draggableShow: false,
+    pageState: 'show', // show list layout mark line conflict agv control system
   },
   subscriptions: {},
   effects: {
@@ -17,8 +19,9 @@ export default {
       yield put({ type: 'layoutState', payload: { collapsed: collapsed, mode: mode } });
     },
     changePage: function* ({ payload }, { put }) {
-      const { page } = payload;
+      const { page, isDraggableShow, pageState } = payload;
       const nextPage = "/" + page;
+      yield put({ type: 'draggableShowChange', payload: { isDraggableShow: isDraggableShow, currentPageState: pageState } });
       yield put(routerRedux.push(nextPage));
     },
   },
@@ -31,6 +34,14 @@ export default {
         mode,
       };
     },
+    draggableShowChange: function (state, { payload }) {
+      const { isDraggableShow, currentPageState } = payload;
+      return {
+        ...state,
+        draggableShow: isDraggableShow,
+        pageState: currentPageState,
+      }
+    }
   },
 }
 

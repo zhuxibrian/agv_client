@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import Draggable, { DraggableCore } from 'react-draggable'; // Both at the same time
 import { connect } from 'dva';
+import { Button } from 'antd';
 import styles from './draggableDialog.less';
 
 const DraggableDialog = ({
@@ -17,8 +18,8 @@ const DraggableDialog = ({
 
   return (
     <Draggable bounds={dragRange} handle="strong">
-      <div className={styles.box}>
-        <strong className={styles.cursor}><div>Drag here</div></strong>
+      <div className="box no-cursor">
+        <strong className="cursor"><Button icon="close" size={'small'} /></strong>
         <div>You must click my handle to drag me</div>
       </div>
     </Draggable>

@@ -17,7 +17,7 @@ export default {
     layoutSize: {
       divWidth: ratioInit().width,
       divHeight: ratioInit().height,
-    }
+    },
   },
   subscriptions: {
     setup: function ({ dispatch }) {

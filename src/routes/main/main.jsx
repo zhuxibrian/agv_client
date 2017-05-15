@@ -19,34 +19,37 @@ const Main = ({
     const { key } = data;
     switch (key) {
       case '1':
-        dispatch({ type: 'main/changePage', payload: { page: 'layout' } });
+        dispatch({ type: 'main/changePage', payload: { page: 'layout', isDraggableShow: false, pageState: 'show' } });
         break;
       case '2':
-        dispatch({ type: 'main/changePage', payload: { page: 'list' } });
+        dispatch({ type: 'main/changePage', payload: { page: 'list', isDraggableShow: false, pageState: 'list' } });
         break;
       case '11':
-        dispatch({ type: 'main/changePage', payload: { page: 'layout' } });
+        dispatch({ type: 'main/changePage', payload: { page: 'layout', isDraggableShow: true, pageState: 'layout' } });
         break;
       case '12':
-        dispatch({ type: 'main/changePage', payload: { page: 'layout' } });
+        dispatch({ type: 'main/changePage', payload: { page: 'layout', isDraggableShow: true, pageState: 'mark' } });
         break;
       case '13':
-        dispatch({ type: 'main/changePage', payload: { page: 'layout' } });
+        dispatch({ type: 'main/changePage', payload: { page: 'layout', isDraggableShow: true, pageState: 'line' } });
         break;
       case '14':
-        dispatch({ type: 'main/changePage', payload: { page: 'layout' } });
+        dispatch({ type: 'main/changePage', payload: { page: 'layout', isDraggableShow: true, pageState: 'conflict' } });
         break;
       case '15':
-        dispatch({ type: 'main/changePage', payload: { page: 'layout' } });
+        dispatch({ type: 'main/changePage', payload: { page: 'layout', isDraggableShow: true, pageState: 'agv' } });
         break;
       case '16':
-        dispatch({ type: 'main/changePage', payload: { page: 'layout' } });
+        dispatch({ type: 'main/changePage', payload: { page: 'layout', isDraggableShow: true, pageState: 'control' } });
+        break;
+      case '17':
+        dispatch({ type: 'main/changePage', payload: { page: 'layout', isDraggableShow: true, pageState: 'system' } });
         break;
       case '21':
-        dispatch({ type: 'main/changePage', payload: { page: 'diagram' } });
+        dispatch({ type: 'main/changePage', payload: { page: 'diagram', isDraggableShow: false, pageState: 'diagram' } });
         break;
       default:
-        dispatch({ type: 'main/changePage', payload: { page: 'layout' } });
+        dispatch({ type: 'main/changePage', payload: { page: 'layout', isDraggableShow: false, pageState: 'show' } });
     }
   }
   return (
@@ -80,6 +83,7 @@ const Main = ({
             <Menu.Item key="14">管制设置</Menu.Item>
             <Menu.Item key="15">AGV设置</Menu.Item>
             <Menu.Item key="16">控制设置</Menu.Item>
+            <Menu.Item key="17">系统设置</Menu.Item>
           </SubMenu>
           <Menu.Item key="21">
             <span>
