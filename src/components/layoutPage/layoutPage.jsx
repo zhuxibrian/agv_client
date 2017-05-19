@@ -18,9 +18,10 @@ const layoutPage = ({
   layoutSize,
   isDraggableShow,
   pageState,
+  data,
+  changeable,
   dispatch,
 }) => {
-
   const path2 = 'm175,220l266,-1l0,97l726,-1l-726,1l0,-97l-266,1';
   const conflict = 'm175,400l300,0';
 
@@ -30,12 +31,6 @@ const layoutPage = ({
     duration: 20000,
     ease: 'linear',
   };
-
-  const markDates = [
-    { x: 0.5, y: 0.6 },
-    { x: 0.33, y: 0.69 },
-    { x: 0.888, y: 0.222 },
-  ];
 
   const content = (
     <div>
@@ -64,11 +59,13 @@ const layoutPage = ({
     height: '20px',
     margin: '-20px 0px',
     transform: 'translate(-20px, 10px)',
-  }
+  };
 
   const draggableDialog = () => {
     if (isDraggableShow) {
-      return <DraggableDialog />;
+      return (
+        <DraggableDialog />
+      )
     }
     else {
       return null;
@@ -81,8 +78,8 @@ const layoutPage = ({
         border: 'none',
         background: 'transparent',
         position: 'absolute',
-        left: value.x * layoutSize.divWidth,
-        top: value.y * layoutSize.divHeight,
+        left: value.x * layoutSize.divWidth - 10,
+        top: value.y * layoutSize.divHeight - 20,
         width: '20px',
         height: '20px',
         backgroundImage: `url(${markImg})`,
@@ -93,7 +90,7 @@ const layoutPage = ({
     if (pageState !== 'mark') return null;
     else {
       const markArray = [];
-      markDates.forEach((value, index) => {
+      data.markDatas.forEach((value, index) => {
         markArray.push(
           <Popover key={index} content={content} title="Title" trigger="click">
             <Button shape="circle" style={markStyle(value)} />
@@ -101,7 +98,7 @@ const layoutPage = ({
         );
       });
       return (
-        <div id="markDiv" style={{ ...divStyle, zIndex: '100' }}>
+        <div id="markDiv" onClick={handleMarkClick} style={{ ...divStyle, zIndex: '100' }}>
           {markArray}
         </div>
       );
@@ -126,7 +123,7 @@ const layoutPage = ({
     if (pageState !== 'control') return null;
     else {
       const controlArray = [];
-      markDates.forEach((value, index) => {
+      data.markDatas.forEach((value, index) => {
         controlArray.push(
           <Popover key={index} content={content} title="Title" trigger="click">
             <Button shape="circle" style={controlStyle(value)} />
@@ -139,6 +136,19 @@ const layoutPage = ({
         </div>
       );
     }
+  }
+
+  const agvShow = () => {
+    return (
+      <div id="agvDiv" style={divStyle}>
+        <TweenOne
+          animation={animation}
+          style={agvStyle}
+          className="code-box-shape"
+          paused={false}
+        />
+      </div>
+    )
   }
 
   const pathShow = () => {
@@ -167,23 +177,20 @@ const layoutPage = ({
     }
   }
 
+  const handleMarkClick = (e) => {
+    if (changeable)
+      dispatch({ type: 'data/addMarkData', payload: { event: e, markDatas: data.markDatas } });
+  }
+
+
   return (
     <div id="layoutDiv" className={styles.normal}>
-      <div style={{ width: '100%', height: '80vh', float: 'left' }}>
-        {draggableDialog()}
-      </div>
       {markShow()}
       {controlShow()}
-      <div id="agvDiv" style={divStyle}>
-        <TweenOne
-          animation={animation}
-          style={agvStyle}
-          className="code-box-shape"
-          paused={false}
-        />
-      </div>
+      {agvShow()}
       {conflictShow()}
       {pathShow()}
+      {draggableDialog()}
     </div>
   );
 }
@@ -197,6 +204,8 @@ function mapStateToProps(state, ownProps) {
     layoutSize: state.layoutPage.layoutSize,
     isDraggableShow: state.main.draggableShow,
     pageState: state.main.pageState,
+    data: state.data.data,
+    changeable: state.data.changeable,
   };
 }
 

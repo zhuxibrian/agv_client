@@ -25,6 +25,7 @@ app.model(require('./models/app'));
 app.model(require('./models/main'));
 app.model(require('./models/layoutPage.js'));
 app.model(require('./models/draggableDialog.js'));
+app.model(require('./models/data.js'));
 
 // 4. Router
 app.router(require('./router'));

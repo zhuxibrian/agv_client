@@ -1,11 +1,12 @@
 import React, { PropTypes } from 'react';
 import Draggable, { DraggableCore } from 'react-draggable'; // Both at the same time
 import { connect } from 'dva';
-import { Button } from 'antd';
+import { Button, Switch, Icon } from 'antd';
 import styles from './draggableDialog.less';
 
 const DraggableDialog = ({
   dragSize,
+  changeable,
   dispatch,
 }) => {
 
@@ -16,11 +17,21 @@ const DraggableDialog = ({
     bottom: dragSize.dragHeight,
   };
 
+  const onChange = (checked) => {
+    dispatch({ type: 'data/changeChangeable', payload: { changeable: checked } });
+  }
+
+
   return (
     <Draggable bounds={dragRange} handle="strong">
       <div className="box no-cursor">
-        <strong className="cursor"><Button icon="close" size={'small'} /></strong>
-        <div>You must click my handle to drag me</div>
+        <strong className="cursor" />
+        <div className={styles.controlDiv}>
+          <div style={{ flexGrow: '1' }}>
+            <Switch onChange={onChange} checkedChildren={<Icon type="unlock" />} unCheckedChildren={<Icon type="lock" />} />
+          </div>
+          <Button icon="save" />
+        </div>
       </div>
     </Draggable>
   )
@@ -34,6 +45,7 @@ DraggableDialog.propTypes = {
 function mapStateToProps(state, ownProps) {
   return {
     dragSize: state.draggableDialog.dragSize,
+    changeable: state.data.changeable,
   };
 }
 

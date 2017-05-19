@@ -62,6 +62,7 @@ export default {
         yield put({ type: 'hasToken' });
       } else {
         yield put({ type: 'authFail' });
+        yield put(routerRedux.push('/login'));
       }
     },
     logout: function* ({ payload }, { put }) {

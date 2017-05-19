@@ -32,16 +32,11 @@
     .react-draggable strong {
       background: #3E96EF;
       border: 1px solid #999;
-      display: block;
-      margin-top: 0px;
-      margin-bottom: 0px;
-      padding: 3px 5px;
-      text-align: center;
-      height: 30px;
+      width: 10px;
+    }
 
-      button {
-        float: right;
-      }
+    .react-draggable div {
+      flex: 1;
     }
 
     .react-draggable, .cursor {
@@ -52,21 +47,20 @@
       background: #fff;
       border: 1px solid #999;
       opacity: 0.95;
-      width: 120px;
-      height: 120px;
+      width: 150px;
+      height: 30px;
       margin: 0px;
       padding: 0px;
       float: left;
+      display: flex;
+      flex-flow: row nowrap;
+      z-index: 200;
+      position: relative;
+      border-radius: 3px;
     }
 
     .no-cursor {
       cursor: auto;
-    }
-    .cursor-y {
-      cursor: ns-resize;
-    }
-    .cursor-x {
-      cursor: ew-resize;
     }
   }
 }
