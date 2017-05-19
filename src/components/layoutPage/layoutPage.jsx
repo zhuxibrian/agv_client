@@ -90,7 +90,7 @@ const layoutPage = ({
     if (pageState !== 'mark') return null;
     else {
       const markArray = [];
-      data.markDatas.forEach((value, index) => {
+      data.markData.forEach((value, index) => {
         markArray.push(
           <Popover key={index} content={content} title="Title" trigger="click">
             <Button shape="circle" style={markStyle(value)} />
@@ -111,8 +111,8 @@ const layoutPage = ({
         border: 'none',
         background: 'transparent',
         position: 'absolute',
-        left: value.x * layoutSize.divWidth,
-        top: value.y * layoutSize.divHeight,
+        left: value.x * layoutSize.divWidth - 10,
+        top: value.y * layoutSize.divHeight - 10,
         width: '20px',
         height: '20px',
         backgroundImage: `url(${controlNormalImg})`,
@@ -120,10 +120,12 @@ const layoutPage = ({
       };
     };
 
-    if (pageState !== 'control') return null;
+    if (pageState !== 'control') {
+      return null;
+    }
     else {
       const controlArray = [];
-      data.markDatas.forEach((value, index) => {
+      data.controlData.forEach((value, index) => {
         controlArray.push(
           <Popover key={index} content={content} title="Title" trigger="click">
             <Button shape="circle" style={controlStyle(value)} />
@@ -131,7 +133,7 @@ const layoutPage = ({
         );
       });
       return (
-        <div id="controlDiv" style={{ ...divStyle, zIndex: '100' }}>
+        <div id="controlDiv" onClick={handleControlClick} style={{ ...divStyle, zIndex: '100' }}>
           {controlArray}
         </div>
       );
@@ -179,7 +181,12 @@ const layoutPage = ({
 
   const handleMarkClick = (e) => {
     if (changeable)
-      dispatch({ type: 'data/addMarkData', payload: { event: e, markDatas: data.markDatas } });
+      dispatch({ type: 'data/addMarkData', payload: { event: e, markData: data.markData } });
+  }
+
+  const handleControlClick = (e) => {
+    if (changeable)
+      dispatch({ type: 'data/addControlData', payload: { event: e, controlData: data.controlData } });
   }
 
 
