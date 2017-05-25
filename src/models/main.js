@@ -41,7 +41,7 @@ export default {
         draggableShow: isDraggableShow,
         pageState: currentPageState,
       }
-    }
+    },
   },
 }
 

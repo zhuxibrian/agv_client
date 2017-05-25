@@ -1,13 +1,28 @@
 .controlDiv {
   display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: center;
+  flex-flow: column nowrap;
+  margin: 5px;
 }
 
-.selectDiv {
+.childDiv {
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  flex-grow: 1;
+  margin-top: 2px;
+}
+
+.childDivSpaceBetween {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 2px;
+}
+
+.childDivFlexEnd {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 2px;
 }

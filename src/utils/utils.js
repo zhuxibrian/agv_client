@@ -11,7 +11,16 @@ const getClickPercent = (clickEvent) => {
   }
 }
 
-module.exports = { getClickPercent };
+const pathToString = (pointArray, width, height) => {
+  let pathString;
+  pointArray.forEach((value, index) => {
+    if (index === 0) pathString = `m${(value.x * width)},${(value.y * height)}`;
+    else pathString += `l${((value.x - pointArray[index - 1].x) * width)},${((value.y - pointArray[index - 1].y) * height)}`;
+  });
+  return pathString;
+};
+
+module.exports = { getClickPercent, pathToString };
 
 
 

@@ -5,12 +5,15 @@ import { connect } from 'dva';
 import TweenOne from 'rc-tween-one';
 import { Popover, Button } from 'antd';
 import PathPlugin from 'rc-tween-one/lib/plugin/PathPlugin';
-import layoutSVG from '../../assets/images/layout.svg';
 import agvImg from '../../assets/images/agv.jpg';
-import markImg from '../../assets/images/mark.png';
-import controlNormalImg from '../../assets/images/control_normal.png';
 import styles from './layoutPage.less';
 import DraggableDialog from '../draggableDialog/draggableDialog';
+import MyPath from '../myPath';
+import MyMark from '../myMark';
+import MyControl from '../myControl';
+import MyVirtualMark from '../myVirtualMark';
+
+import { pathToString } from '../../utils/utils';
 
 TweenOne.plugins.push(PathPlugin);
 
@@ -18,8 +21,8 @@ const layoutPage = ({
   layoutSize,
   isDraggableShow,
   pageState,
-  data,
-  changeable,
+  workSpace,
+  setting,
   dispatch,
 }) => {
   const path2 = 'm175,220l266,-1l0,97l726,-1l-726,1l0,-97l-266,1';
@@ -32,16 +35,15 @@ const layoutPage = ({
     ease: 'linear',
   };
 
-  const content = (
-    <div>
-      <p>Content</p>
-      <p>Content</p>
-    </div>
-  );
+  const layoutImage = (() => {
+    const workSpaceShow = workSpace[setting.currentWorkSpace];
+    const svgPath = workSpaceShow.svg;
+    return require('../../assets/images/' + svgPath);
+  })(layoutImage);
 
   const divStyle = {
     // makesure here is String确保这里是一个字符串，以下是es6写法
-    backgroundImage: `url(${layoutSVG})`,
+    backgroundImage: `url(${layoutImage})`,
     backgroundSize: 'cover',
     width: layoutSize.divWidth,
     height: layoutSize.divHeight,
@@ -73,28 +75,17 @@ const layoutPage = ({
   };
 
   const markShow = () => {
-    const markStyle = (value) => {
-      return {
-        border: 'none',
-        background: 'transparent',
-        position: 'absolute',
-        left: value.x * layoutSize.divWidth - 10,
-        top: value.y * layoutSize.divHeight - 20,
-        width: '20px',
-        height: '20px',
-        backgroundImage: `url(${markImg})`,
-        backgroundSize: 'cover',
-      };
-    };
-
-    if (pageState !== 'mark') return null;
-    else {
+    if (pageState === 'mark') {
+      const markData = workSpace[setting.currentWorkSpace].markData;
       const markArray = [];
-      data.markData.forEach((value, index) => {
+      const markProps = {
+        changeable: setting.changeable,
+        layoutSize,
+        pageState,
+      }
+      markData.forEach((value, index) => {
         markArray.push(
-          <Popover key={index} content={content} title="Title" trigger="click">
-            <Button shape="circle" style={markStyle(value)} />
-          </Popover>
+          <MyMark key={index} value={value} index={index} markProps={markProps} />
         );
       });
       return (
@@ -103,33 +94,19 @@ const layoutPage = ({
         </div>
       );
     }
+    else return null;
   }
 
   const controlShow = () => {
-    const controlStyle = (value) => {
-      return {
-        border: 'none',
-        background: 'transparent',
-        position: 'absolute',
-        left: value.x * layoutSize.divWidth - 10,
-        top: value.y * layoutSize.divHeight - 10,
-        width: '20px',
-        height: '20px',
-        backgroundImage: `url(${controlNormalImg})`,
-        backgroundSize: 'cover',
-      };
-    };
-
     if (pageState !== 'control') {
       return null;
     }
     else {
+      const controlData = workSpace[setting.currentWorkSpace].controlData;
       const controlArray = [];
-      data.controlData.forEach((value, index) => {
+      controlData.forEach((value, index) => {
         controlArray.push(
-          <Popover key={index} content={content} title="Title" trigger="click">
-            <Button shape="circle" style={controlStyle(value)} />
-          </Popover>
+          <MyControl key={index} value={value} index={index} layoutSize={layoutSize} />
         );
       });
       return (
@@ -156,11 +133,45 @@ const layoutPage = ({
   const pathShow = () => {
     if (pageState !== 'line') return null;
     else {
+      const cwp = setting.currentWorkSpace;
+      const pathString = pathToString(
+        workSpace[cwp].lineData[setting.currentLine].point,
+        layoutSize.divWidth,
+        layoutSize.divHeight,
+      );
+      const myPathProps = {
+        layoutSize,
+        pathString,
+      };
+
+      const markData = workSpace[cwp].markData;
+      const markArray = [];
+      const markProps = {
+        changeable: setting.changeable,
+        layoutSize,
+        pageState,
+      }
+      markData.forEach((value, index) => {
+        markArray.push(
+          <MyMark key={index} value={value} index={index} markProps={markProps} handleClick={handlePathMarkClick} />
+        );
+      });
+
+      const linePoints = workSpace[cwp].lineData[setting.currentLine].point;
+      const virtualMarkArray = [];
+      linePoints.forEach((value, index) => {
+        if (!value.isReal) {
+          virtualMarkArray.push(
+            <MyVirtualMark key={index} value={value} index={index} markProps={markProps} />
+          );
+        }
+      });
+
       return (
-        <div id="pathDiv" style={divStyle}>
-          <svg width="100%" height="100%">
-            <path d={path2} fill="white" stroke="rgba(1, 155, 240, 0.6)" strokeWidth="2" />
-          </svg>
+        <div onClick={handlePathDivClick} style={divStyle}>
+          <MyPath myPathProps={myPathProps} />
+          {markArray}
+          {virtualMarkArray}
         </div>
       )
     }
@@ -172,21 +183,43 @@ const layoutPage = ({
       return (
         <div id="conflictDiv" style={divStyle}>
           <svg width="100%" height="100%">
-            <path d={conflict} fill="white" stroke="rgba(240, 1, 1, 0.6)" strokeWidth="2" />
+            <path d={conflict} fillOpacity="0" fill="white" stroke="rgba(240, 1, 1, 0.6)" strokeWidth="2" />
           </svg>
         </div>
       )
     }
   }
 
+  const handlePathDivClick = (e) => {
+    if (setting.changeable) {
+      const cWorkSpace = workSpace;
+      const cSetting = setting;
+      dispatch({ type: 'data/addVirtualPathPoint', payload: { event: e, cWorkSpace, cSetting } });
+    }
+  }
+
+  const handlePathMarkClick = (x, y, markIndex) => {
+    if (setting.changeable) {
+      const cWorkSpace = workSpace;
+      const cSetting = setting;
+      dispatch({ type: 'data/addRealPathPoint', payload: { x, y, cWorkSpace, cSetting, markIndex } });
+    }
+  }
+
   const handleMarkClick = (e) => {
-    if (changeable)
-      dispatch({ type: 'data/addMarkData', payload: { event: e, markData: data.markData } });
+    if (setting.changeable) {
+      const cWorkSpace = workSpace;
+      const cSetting = setting;
+      dispatch({ type: 'data/addMarkData', payload: { event: e, cWorkSpace, cSetting } });
+    }
   }
 
   const handleControlClick = (e) => {
-    if (changeable)
-      dispatch({ type: 'data/addControlData', payload: { event: e, controlData: data.controlData } });
+    if (setting.changeable) {
+      const cWorkSpace = workSpace;
+      const cSetting = setting;
+      dispatch({ type: 'data/addControlData', payload: { event: e, cWorkSpace, cSetting } });
+    }
   }
 
 
@@ -211,8 +244,8 @@ function mapStateToProps(state, ownProps) {
     layoutSize: state.layoutPage.layoutSize,
     isDraggableShow: state.main.draggableShow,
     pageState: state.main.pageState,
-    data: state.data.data,
-    changeable: state.data.changeable,
+    workSpace: state.data.workSpace,
+    setting: state.data.setting,
   };
 }
 

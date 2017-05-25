@@ -9,7 +9,8 @@ const Option = Select.Option;
 const DraggableDialog = ({
   dragSize,
   pageState,
-  data,
+  workSpace,
+  setting,
   dispatch,
 }) => {
 
@@ -20,46 +21,101 @@ const DraggableDialog = ({
     bottom: dragSize.dragHeight,
   };
 
-  const selectOption = () => {
+  const handleWorkspaceChange = (value) => {
+    dispatch({ type: 'data/changeCurrentWorkspace', payload: { currentWorkSpace: value } });
+  };
+
+  const handleLineChange = (value) => {
+    dispatch({ type: 'data/changeCurrentLine', payload: { currentLine: value } });
+  }
+
+  const workspaceSelectOption = () => {
     const selectArray = [];
     let selectData = [];
     switch (pageState) {
       case 'line':
-        selectData = data.lineData;
+        selectData = workSpace;
         break;
       default:
         selectData = [];
     }
+    const defaultValue = selectData.length > 0 ? selectData[0].name : null;
     selectData.forEach((value, index) => {
       selectArray.push(
-        <Option value={value.name}>{value.name}</Option>
+        <Option key={index} value={index.toString()}>{selectData[index].name}</Option>
       )
     });
-    return selectArray;
+    return (
+      <Select
+        showSearch
+        style={{ width: '90px' }}
+        optionFilterProp="children"
+        filterOption={(input, option) => option.props.value.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+        defaultValue={defaultValue}
+        onChange={handleWorkspaceChange}
+      >
+        {selectArray}
+      </Select>
+    )
   }
 
-  const onChange = (checked) => {
+  const lineSelectOption = () => {
+    const selectArray = [];
+    let selectData = [];
+    const ws = workSpace[setting.currentWorkSpace];
+    switch (pageState) {
+      case 'line':
+        selectData = ws.lineData;
+        break;
+      default:
+        selectData = [];
+    }
+    const defaultValue = selectData.length > 0 ? selectData[0].name : null;
+    selectData.forEach((value, index) => {
+      selectArray.push(
+        <Option key={index} value={index.toString()}>{value.name}</Option>
+      )
+    });
+    return (
+      <Select
+        showSearch
+        style={{ width: '90px' }}
+        optionFilterProp="children"
+        filterOption={(input, option) => option.props.value.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+        defaultValue={defaultValue}
+        onChange={handleLineChange}
+      >
+        {selectArray}
+      </Select>
+    )
+  }
+
+  const onChangeableChange = (checked) => {
     dispatch({ type: 'data/changeChangeable', payload: { changeable: checked } });
   }
 
   return (
     <Draggable bounds={dragRange} handle="strong">
       <div className="box no-cursor">
-        <strong className="cursor" />
+        <strong className="cursor"><Icon type="setting" /></strong>
         <div className={styles.controlDiv}>
-          <div className={styles.selectDiv}>
-            <Switch onChange={onChange} checkedChildren={<Icon type="unlock" />} unCheckedChildren={<Icon type="lock" />} />
-            <Select
-              showSearch
-              style={{ width: '100px' }}
-              optionFilterProp="children"
-              filterOption={(input, option) => option.props.value.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-            >
-              {selectOption()}
-            </Select>
+          <div className={styles.childDiv}>
+            <p>操作锁：</p>
+            <Switch defaultChecked={setting.changeable} onChange={onChangeableChange} checkedChildren={<Icon type="unlock" />} unCheckedChildren={<Icon type="lock" />} />
           </div>
-          <Button icon="setting" />
-          <Button icon="save" />
+          <div className={styles.childDivSpaceBetween}>
+            <p>生产区：</p>
+            {workspaceSelectOption()}
+          </div>
+          <div className={styles.childDivSpaceBetween}>
+            <p>路线：</p>
+            {lineSelectOption()}
+          </div>
+          <div className={styles.childDivFlexEnd}>
+            <Button icon="plus-square-o" />
+            <Button icon="setting" />
+            <Button icon="save" />
+          </div>
         </div>
       </div>
     </Draggable>
@@ -75,7 +131,8 @@ function mapStateToProps(state, ownProps) {
   return {
     dragSize: state.draggableDialog.dragSize,
     pageState: state.main.pageState,
-    data: state.data.data,
+    workSpace: state.data.workSpace,
+    setting: state.data.setting,
   };
 }
 

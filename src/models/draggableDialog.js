@@ -4,8 +4,8 @@ const dragSizeInit = () => {
   return {
     width: (window.innerWidth - 240) * 0.1,
     height: (window.innerHeight - 160) * 0.3,
-    dragWidth: (window.innerWidth - 240) * 0.8,
-    dragHeight: (window.innerHeight - 160) * 0.65,
+    dragWidth: (window.innerWidth - 240) - 175,
+    dragHeight: (window.innerHeight - 160) - 150,
   };
 };
 
